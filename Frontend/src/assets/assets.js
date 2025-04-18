@@ -18,7 +18,12 @@ import seeds from './seeds.jpg'
 import fertilizer from './fertilizer.jpg'
 import pests from './pestisides.jpg'
 import tools from './tools.jpg'
-
+import landscape from './landscape.avif'
+import farm from './farm.avif'
+import farm2 from './farm2.avif'
+import cows from './cows.avif'
+import market from './market.avif'
+import footer_image from './footer_image.avif'
 export const assets = {
     home_icon,
     search_icon,
@@ -40,5 +45,11 @@ export const assets = {
     fertilizer,
     pests,
     tools,
+    landscape,
+    farm,
+    farm2,
+    cows,
+    market,
+    footer_image,
 }
 
