@@ -46,4 +46,5 @@ def print_weather_info(data):
         print(" Missing key in weather data:", e)
 
 city_input = input("Enter city name: ")
+
 get_weather_data(city_input)
