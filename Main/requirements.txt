@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-firebase-admin
-twilio
-apscheduler
-requests
-python-dotenv
