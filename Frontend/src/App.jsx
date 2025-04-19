@@ -6,6 +6,7 @@ import Marketplace from './Pages/Marketplace'
 import Services from './Pages/Services'
 import Login from './Pages/Login'
 import Cart from './Pages/Cart'
+import SignupPage from './Pages/SignUp'
 const App = () => {
   return (
     <div>
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/services' element={<Services/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/cart' element={<Cart/>}/>
+        <Route path='/signup' element={<SignupPage/>}/>
       </Routes>
     </div>
   )
