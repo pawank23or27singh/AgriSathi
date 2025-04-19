@@ -1,267 +1,174 @@
-import React from 'react'
-import { assets } from '../assets/assets'
-import Navbar from '../Components/Navbar'
-const marketplace = () => {
+import React, { useState, useRef } from 'react';
+import { assets } from '../assets/assets';
+import Navbar from '../Components/Navbar';
+import Footer from '../Components/Footer';
+import HeroSection from '../Components/HeroSection';
+import { Link } from 'react-router-dom';
+
+const Marketplace = () => {
+    // Create a ref for the product section to scroll to it
+    const productSectionRef = useRef(null);
+
+    // All Products
+    const products = [
+        { id: 1, name: 'Seeds', price: 500, quality: 'high', category: 'seeds', img: assets.seeds },
+        { id: 2, name: 'Fertilizer', price: 300, quality: 'medium', category: 'fertilizers', img: assets.fertilizer },
+        { id: 3, name: 'Pesticides', price: 150, quality: 'high', category: 'pesticides', img: assets.pests },
+        { id: 4, name: 'Tools', price: 200, quality: 'low', category: 'tools', img: assets.tools },
+        { id: 5, name: 'Seeds', price: 500, quality: 'high', category: 'seeds', img: assets.seeds },
+        { id: 6, name: 'Pesticides', price: 150, quality: 'high', category: 'pesticides', img: assets.pests },
+        { id: 7, name: 'Pesticides', price: 150, quality: 'high', category: 'pesticides', img: assets.pests },
+        { id: 8, name: 'Seeds', price: 500, quality: 'high', category: 'seeds', img: assets.seeds },
+        { id: 9, name: 'Fertilizer', price: 300, quality: 'medium', category: 'fertilizers', img: assets.fertilizer },
+        { id: 10, name: 'Tools', price: 200, quality: 'low', category: 'tools', img: assets.tools },
+        { id: 11, name: 'Pesticides', price: 150, quality: 'high', category: 'pesticides', img: assets.pests },
+        { id: 12, name: 'Seeds', price: 500, quality: 'high', category: 'seeds', img: assets.seeds },
+    ];
+
+    // Filter States
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [maxPrice, setMaxPrice] = useState(1000);
+    const [selectedQuality, setSelectedQuality] = useState('');
+    const [quantity, setQuantity] = useState(10);
+    const [organic, setOrganic] = useState(false);
+    const [origin, setOrigin] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [visibleProducts, setVisibleProducts] = useState(8); // Initially display 8 products
+
+    // Handle clear filters
+    const clearFilters = () => {
+        setSelectedCategory('');
+        setMaxPrice(1000);
+        setSelectedQuality('');
+        setQuantity(10);
+        setOrganic(false);
+        setOrigin('');
+        setSearchQuery('');
+    };
+
+    // Filtered products
+    const filteredProducts = products.filter((product) => {
+        const categoryMatch = selectedCategory ? product.category === selectedCategory : true;
+        const priceMatch = product.price <= maxPrice;
+        const qualityMatch = selectedQuality ? product.quality === selectedQuality : true;
+        const searchMatch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        return categoryMatch && priceMatch && qualityMatch && searchMatch;
+    });
+
+    // Load more products
+    const loadMoreProducts = () => {
+        setVisibleProducts(visibleProducts + 8); // Show 8 more products
+    };
+
+    // Scroll to the product section
+    const scrollToProducts = () => {
+        productSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
-        <div>
-            <div className="font-sans">
-                <Navbar />
+        <div className="font-sans">
+            <Navbar />
 
-                {/* Hero Section */}
-                <section className="relative p-4 h-[500px]">
-                    <div className="absolute inset-0 bg-gradient-to-r from-green-500 via-green-600 to-green-800 opacity-60 z-0"></div> {/* Gradient overlay */}
-                    <div className="grid grid-cols-2 grid-rows-2 gap-2 w-full h-full relative z-10">
-                        <img src={assets.crops1} alt="Crop 1" className="row-span-2 object-cover w-full h-full shadow-lg hover:scale-105 transition-transform duration-300 rounded-lg" />
-                        <img src={assets.crops4} alt="Crop 4" className="object-cover w-full h-full shadow-lg hover:scale-105 transition-transform duration-300 rounded-lg" />
-                        <img src={assets.crops3} alt="Crop 3" className="object-cover w-full h-full shadow-lg hover:scale-105 transition-transform duration-300 rounded-lg" />
+            {/* Pass the scroll function to HeroSection */}
+            <HeroSection onClick={scrollToProducts} />
+
+            {/* Filters and Search Bar */}
+            <div className="flex p-6">
+                {/* Filters Sidebar */}
+                <aside className="w-1/4 pr-6 bg-green-100 p-6 rounded-lg shadow-lg">
+                    <h2 className="font-bold text-xl mb-4">Filters</h2>
+
+                    {/* Product Category */}
+                    <div className="mb-6">
+                        <h3 className="font-semibold text-lg">Product Category</h3>
+                        <div className="flex flex-wrap space-x-4">
+                            <button onClick={() => setSelectedCategory('')} className={`px-4 py-2 rounded-lg ${!selectedCategory && 'bg-green-600 text-white'}`}>All</button>
+                            <button onClick={() => setSelectedCategory('seeds')} className={`px-4 py-2 rounded-lg ${selectedCategory === 'seeds' && 'bg-green-600 text-white'}`}>Seeds</button>
+                            <button onClick={() => setSelectedCategory('fertilizers')} className={`px-4 py-2 rounded-lg ${selectedCategory === 'fertilizers' && 'bg-green-600 text-white'}`}>Fertilizers</button>
+                            <button onClick={() => setSelectedCategory('pesticides')} className={`px-4 py-2 rounded-lg ${selectedCategory === 'pesticides' && 'bg-green-600 text-white'}`}>Pesticides</button>
+                            <button onClick={() => setSelectedCategory('tools')} className={`px-4 py-2 rounded-lg ${selectedCategory === 'tools' && 'bg-green-600 text-white'}`}>Tools</button>
+                        </div>
                     </div>
-                </section>
 
-                {/* Categories */}
-                <div className="flex justify-center space-x-4 p-6">
-                    <button className="bg-green-500 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition duration-300 shadow-lg">Seeds</button>
-                    <button className="bg-green-500 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition duration-300 shadow-lg">Fertilizers</button>
-                    <button className="bg-green-500 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition duration-300 shadow-lg">Pesticides</button>
-                    <button className="bg-green-500 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition duration-300 shadow-lg">Tools</button>
-                </div>
+                    {/* Price Range */}
+                    <div className="mb-6">
+                        <h3 className="font-semibold text-lg">Price Range</h3>
+                        <input type="range" min="0" max="1000" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} className="w-full h-2 bg-gray-300 rounded-lg" />
+                        <div>₹0 - ₹{maxPrice}</div>
+                    </div>
 
-                {/* Main Content */}
-                <div className="flex p-6">
-                    {/* Filters */}
-                    <aside className="w-1/4 pr-6 bg-green-100 p-6 rounded-lg shadow-lg">
-                        <h2 className="font-bold text-xl mb-4">Filters</h2>
+                    {/* Quality */}
+                    <div className="mb-6">
+                        <h3 className="font-semibold text-lg">Quality</h3>
+                        <div className="flex flex-col space-y-2">
+                            <label><input type="radio" name="quality" value="high" checked={selectedQuality === 'high'} onChange={(e) => setSelectedQuality(e.target.value)} className="mr-2" />High</label>
+                            <label><input type="radio" name="quality" value="medium" checked={selectedQuality === 'medium'} onChange={(e) => setSelectedQuality(e.target.value)} className="mr-2" />Medium</label>
+                            <label><input type="radio" name="quality" value="low" checked={selectedQuality === 'low'} onChange={(e) => setSelectedQuality(e.target.value)} className="mr-2" />Low</label>
+                        </div>
+                    </div>
 
-                        {/* Product Category Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Product Category</h3>
-                            <select className="w-full p-2 border rounded-md">
-                                <option value="seeds">Seeds</option>
-                                <option value="fertilizers">Fertilizers</option>
-                                <option value="pesticides">Pesticides</option>
-                                <option value="tools">Tools</option>
-                            </select>
+                    {/* Clear Filters */}
+                    <div className="mt-4">
+                        <button onClick={clearFilters} className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-700 transition duration-300">Clear Filters</button>
+                    </div>
+                </aside>
+
+                {/* Product Section */}
+                <section className="w-3/4 flex flex-col" ref={productSectionRef}>
+                    {/* Search Bar */}
+                    <div className="mb-6 ml-4">
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full p-2 border border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                        />
+                    </div>
+
+                    <div className='flex flex-row justify-between m-4'>
+                        {/* Selected Filters Display */}
+                        <div className="mb-4 text-lg font-semibold">
+                            {selectedCategory ? `Showing: ${selectedCategory}` : 'Showing All Products'}
                         </div>
 
-                        {/* Quantity Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Quantity</h3>
-                            <div className="flex justify-between">
-                                <span>1-5</span>
-                                <input type="range" min="1" max="10" className="w-full h-2 bg-gray-300 rounded-lg" />
-                                <span>10+</span>
+                        <Link to={"/cart"} className='flex items-center'>
+                            <img src={assets.cart} alt="Cart" className="w-6 h-6 mr-2 transform transition-transform duration-300 hover:scale-110" />
+                            <Link className="text-lg font-semibold text-gray-800 hover:text-green-600 transition-colors duration-300">Cart</Link>
+                        </Link>
+
+                    </div>
+
+                    {/* Product Grid */}
+                    <div className="grid grid-cols-4 gap-6">
+                        {filteredProducts.slice(0, visibleProducts).map((product) => (
+                            <div key={product.id} className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
+                                <img src={product.img} alt={product.name} className="w-full h-32 object-cover mb-2 rounded-lg" />
+                                <h4 className="font-bold mb-1">{product.name}</h4>
+                                <p className="text-gray-600 text-sm mb-2">High-quality {product.name.toLowerCase()} for healthy crops.</p>
+                                <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹{product.price}</div>
+                                <div className="flex justify-center items-center mb-2">
+                                    <span className="text-yellow-500">⭐⭐⭐⭐⭐</span>
+                                </div>
+                                <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Add to Cart</button>
                             </div>
-                        </div>
+                        ))}
+                    </div>
 
-                        {/* Price Range Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Price Range</h3>
-                            <div className="flex justify-between">
-                                <span>₹0</span>
-                                <input type="range" min="0" max="1000" className="w-full h-2 bg-gray-300 rounded-lg" />
-                                <span>₹1000+</span>
-                            </div>
-                        </div>
-
-                        {/* Quality Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Quality</h3>
-                            <div className="flex flex-col space-y-2">
-                                <label className="flex items-center">
-                                    <input type="radio" name="quality" value="high" className="mr-2" />
-                                    High
-                                </label>
-                                <label className="flex items-center">
-                                    <input type="radio" name="quality" value="medium" className="mr-2" />
-                                    Medium
-                                </label>
-                                <label className="flex items-center">
-                                    <input type="radio" name="quality" value="low" className="mr-2" />
-                                    Low
-                                </label>
-                            </div>
-                        </div>
-
-                        {/* Organic Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Organic</h3>
-                            <div className="flex flex-col space-y-2">
-                                <label><input type="checkbox" className="mr-2" /> Chemical-free</label>
-                                <label><input type="checkbox" className="mr-2" /> Eco-friendly</label>
-                            </div>
-                        </div>
-
-                        {/* Origin Filter */}
-                        <div className="mb-6">
-                            <h3 className="font-semibold text-lg">Origin</h3>
-                            <select className="w-full p-2 border rounded-md">
-                                <option value="local">Local</option>
-                                <option value="imported">Imported</option>
-                            </select>
-                        </div>
-
-                        {/* Clear Filters Button */}
-                        <div className="mt-4">
-                            <button className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-700 transition duration-300">
-                                Clear Filters
+                    {/* View More Button */}
+                    {visibleProducts < filteredProducts.length && (
+                        <div className="mt-6 flex justify-center">
+                            <button onClick={loadMoreProducts} className="bg-green-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-green-700 transition duration-300">
+                                View More
                             </button>
                         </div>
-                    </aside>
-
-                    {/* Products */}
-                    <section className="w-3/4 grid grid-cols-4 gap-6">
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                        {/* Fertilizer Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.fertilizer} alt="Fertilizer" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Fertilizer</h4>
-                            <p className="text-gray-600 text-sm mb-2">Organic fertilizer to enhance growth.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹300</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                        {/* Pesticides Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.pests} alt="Pesticides" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Pesticides</h4>
-                            <p className="text-gray-600 text-sm mb-2">Effective pesticides for crop protection.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹150</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                        {/* Tools Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.tools} alt="Tools" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Tools</h4>
-                            <p className="text-gray-600 text-sm mb-2">Durable tools for efficient farming.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹200</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.pests} alt="Pesticides" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Pesticides</h4>
-                            <p className="text-gray-600 text-sm mb-2">Effective pesticides for crop protection.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹150</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.pests} alt="Pesticides" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Pesticides</h4>
-                            <p className="text-gray-600 text-sm mb-2">Effective pesticides for crop protection.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹150</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.pests} alt="Pesticides" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Pesticides</h4>
-                            <p className="text-gray-600 text-sm mb-2">Effective pesticides for crop protection.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹150</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-                        {/* Seeds Card */}
-                        <div className="bg-white p-4 shadow-lg rounded-lg text-center transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl">
-                            <img src={assets.seeds} alt="Seeds" className="w-full h-32 object-cover mb-2 rounded-lg" />
-                            <h4 className="font-bold mb-1">Seeds</h4>
-                            <p className="text-gray-600 text-sm mb-2">High-quality seeds for healthy crops.</p> {/* Product Description */}
-                            <div className="bg-green-400 text-white px-2 py-1 inline-block mb-2 rounded-full">₹500</div>
-                            <div className="flex justify-center items-center mb-2">
-                                <span className="text-yellow-500">⭐⭐⭐⭐</span> {/* Rating */}
-                            </div>
-                            <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Buy</button>
-                        </div>
-
-                    </section>
-                </div>
-
-                <footer className="bg-green-800 text-white p-4 flex justify-between items-center text-sm">
-                    <div className="flex space-x-4">
-                        <span>AgriConnect</span>
-                        <span>Local</span>
-                        <span>Marketplace</span>
-                        <span>Language</span>
-                    </div>
-                    <div>
-                        &copy; AgriConnect 2025
-                    </div>
-                </footer>
+                    )}
+                </section>
             </div>
 
+            <Footer />
         </div>
-    )
-}
+    );
+};
 
-export default marketplace
+export default Marketplace;

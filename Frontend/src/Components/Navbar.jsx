@@ -11,9 +11,10 @@ const Navbar = () => {
                     <Link to="/">Home</Link>
                     <a href="#">Alerts</a>
                     <Link to="/market">Marketplace</Link>
-                    <a href="#">About Us</a>
+                    <Link to="/services">Services</Link>
+                    {/* <a href="#">About Us</a> */}
                 </div>
-                <div className="flex items-center ">
+                {/* <div className="flex items-center ">
                     <input
                         type="text"
                         placeholder="Search products or services"
@@ -22,6 +23,9 @@ const Navbar = () => {
                     <button className="bg-white text-green-700 px-3 py-1 rounded-r border-l ">
                         <img src={assets.search_icon} alt="" className='w-5.1 ' />
                     </button>
+                </div> */}
+                <div>
+                    <Link to="/login" className='bg-black text-white p-2 rounded-lg hover:border border-green-400'>Login</Link>
                 </div>
             </nav>
         </div>

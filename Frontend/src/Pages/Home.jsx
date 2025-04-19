@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import { assets } from '../assets/assets'
+import Footer from '../Components/Footer'
 
 const Home = () => {
     return (
@@ -94,18 +95,8 @@ const Home = () => {
                         </div>
                     </div>
                 </section>
-
-                {/* Footer */}
-                <footer className="w-full max-w-7xl p-4 bg-green-200 text-center">
-                    <div className="space-x-4">
-                        <span>AgriConnect</span>
-                        <span>Local</span>
-                        <span>Marketpia</span>
-                        <span>Language</span>
-                    </div>
-                    <p className="mt-2">&copy; AgriConnect 2022</p>
-                </footer>
             </div>
+            <Footer/>
         </div>
     )
 }
