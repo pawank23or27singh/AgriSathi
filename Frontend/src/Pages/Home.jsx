@@ -84,14 +84,17 @@ const Home = () => {
                             <h3 className="text-2xl font-bold mb-4">
                                 Get the latest updates and offers on agricultural solutions tailored for you.
                             </h3>
-                            <div className="flex justify-center md:justify-start">
+                            {/* <div className="flex justify-center md:justify-start">
                                 <input
                                     type="text"
                                     placeholder="Enter your mobile number here"
                                     className="border p-2 rounded-l w-64"
                                 />
                                 <button className="bg-green-700 text-white px-4 py-2 rounded-r">Subscribe</button>
-                            </div>
+                            </div> */}
+                            <button className=' p-4 rounded-full bg-green-700 text-white hover:bg-green-800'>
+                                Connect to Chatbot
+                            </button>
                         </div>
                     </div>
                 </section>
