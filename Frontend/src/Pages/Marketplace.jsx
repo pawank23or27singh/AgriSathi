@@ -4,10 +4,13 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import HeroSection from '../Components/HeroSection';
 import { Link } from 'react-router-dom';
+import { useCart } from '../Context/CartContext';
 
 const Marketplace = () => {
     // Create a ref for the product section to scroll to it
     const productSectionRef = useRef(null);
+
+    const { addToCart } = useCart();
 
     // All Products
     const products = [
@@ -150,8 +153,12 @@ const Marketplace = () => {
                                 <div className="flex justify-center items-center mb-2">
                                     <span className="text-yellow-500">⭐⭐⭐⭐⭐</span>
                                 </div>
-                                <button className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md">Add to Cart</button>
-                            </div>
+                                <button
+                                    onClick={() => addToCart(product)}
+                                    className="mt-2 bg-green-500 hover:bg-green-700 text-white px-4 py-1 rounded-lg transition duration-300 shadow-md"
+                                >
+                                    Add to Cart
+                                </button>                            </div>
                         ))}
                     </div>
 
