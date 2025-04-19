@@ -31,6 +31,7 @@ import cold_storage from './cold_storage.avif'
 import finance from './finance.avif'
 import buyers from './buyers.avif'
 import cart from './cart.svg'
+import agriSaathi from './agriSaathi.png'
 export const assets = {
     home_icon,
     search_icon,
@@ -64,6 +65,7 @@ export const assets = {
     cold_storage,
     finance,
     buyers,
-    cart
+    cart,
+    agriSaathi
 }
 

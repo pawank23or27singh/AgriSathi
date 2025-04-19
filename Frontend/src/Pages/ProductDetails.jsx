@@ -5,7 +5,7 @@ const ProductDetails = () => {
   return (
     <div className="font-sans">
       <header className="bg-green-200 p-4 flex justify-between items-center">
-        <div className="text-2xl font-bold">AgriConnect</div>
+        <div className="text-2xl font-bold">AgriSaathi</div>
         <div className="flex space-x-4">
           <input type="text" placeholder="Search for crop service" className="p-2 border rounded" />
           <div className="bg-green-500 text-white p-2 rounded">Alerts & Updates</div>
@@ -80,13 +80,13 @@ const ProductDetails = () => {
           </div>
         </div>
         <div className="text-center mt-4">
-          <p>AgriConnect</p>
+          <p>AgriSaathi</p>
         </div>
         <div className="text-center mt-2 text-sm">
-          <p>AgriConnect | Local | Marketplace | Language</p>
+          <p>AgriSaathi | Local | Marketplace | Language</p>
         </div>
         <div className="text-center mt-2 text-sm">
-          <p>© AgriConnect 2022</p>
+          <p>© AgriSaathi 2022</p>
         </div>
       </footer>
     </div>

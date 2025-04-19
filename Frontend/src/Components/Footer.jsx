@@ -18,7 +18,7 @@ const Footer = () => {
 
         {/* Left - Links */}
         <div className="flex flex-col space-y-2 text-center md:text-left relative">
-          <span className="hover:underline cursor-pointer">AgriConnect</span>
+          <span className="hover:underline cursor-pointer">AgriSaathi</span>
           <span className="hover:underline cursor-pointer">Local</span>
           <span className="hover:underline cursor-pointer">About Us</span>
 
@@ -49,7 +49,7 @@ const Footer = () => {
 
         {/* Center - Copyright */}
         <div className="text-center text-xs text-green-200">
-          &copy; {new Date().getFullYear()} AgriConnect. All rights reserved.
+          &copy; {new Date().getFullYear()} AgriSaathi. All rights reserved.
         </div>
 
         {/* Right - Contact + Socials */}

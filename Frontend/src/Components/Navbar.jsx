@@ -6,7 +6,8 @@ const Navbar = () => {
     return (
         <div>
             <nav className="flex items-center justify-between bg-green-700 p-4">
-                <div className="text-white font-bold text-xl">AgriConnect</div>
+                {/* <img src={assets.agriSaathi} className='w-10 h-10' alt="" /> */}
+                <div className="text-white font-bold text-xl">AgriSaathi</div>
                 <div className="flex space-x-6 text-white font-semibold">
                     <Link to="/">Home</Link>
                     <a href="#">Alerts</a>

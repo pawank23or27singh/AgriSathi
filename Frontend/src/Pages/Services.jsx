@@ -98,7 +98,7 @@ const Services = () => {
                     <p>Phone: +91 123 456 7890</p>
                 </div>
                 <div>
-                    &copy; AgriConnect 2025
+                    &copy; AgriSaathi 2025
                 </div>
                 <div>
                     <h3 className="text-xl font-bold">Quick Links</h3>
